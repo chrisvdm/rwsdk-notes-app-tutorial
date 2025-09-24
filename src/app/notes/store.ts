@@ -1,0 +1,1 @@
+export const NOTES: { id: number; text: string }[] = [{ id: 1, text: "First note" }];
