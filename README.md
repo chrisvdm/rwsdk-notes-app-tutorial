@@ -260,6 +260,9 @@ Hopefully you will see rwsdk core beliefs in action:
   Keep most UI as **server components**; hydrate only the islands that need it.
 
   ## 7. Deploy when ready
+  If you followed the instructions you will be left with something that looks like this:
+
+  ![tutorial result screenshot](./img01.png)
 
   This will open up Cloudflare in your browser to log in and grant permissions. Go back to your terminal when that's done.
 
