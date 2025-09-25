@@ -18,7 +18,7 @@ Hopefully you will see rwsdk core beliefs in action:
   - [Cloudflare](https://www.cloudflare.com/en-gb/plans/) account
   - Basic web development knowledge
 
-  ## 1. Create a new app
+  ### 1. Create a new app
   ```terminal 
     npx create-rwsdk ping-notes
     cd ping-notes
@@ -27,7 +27,7 @@ Hopefully you will see rwsdk core beliefs in action:
   ```
   Open http://localhost:5173 and you’ll see the starter. The entry is src/worker.tsx.
 
-  ## 2. Your first two routes: Response vs JSX
+  ### 2. Your first two routes: Response vs JSX
 
   Open `src/worker.tsx` and add a classic text route and a JSX route side by side:
   
@@ -49,7 +49,7 @@ Hopefully you will see rwsdk core beliefs in action:
 
   **Key difference vs Next.js/Remix:** You’re not learning a folder convention; you’re writing the router you mean. Returns can be Response or JSX in the same surface.
 
-  ## 3. Add middleware and context (session → user)
+  ### 3. Add middleware and context (session → user)
 
   Let’s pretend we have a session middleware that populates ctx.session, then hydrate ctx.user for downstream routes. If unauthenticated, we’ll block with an Interrupter on a protected route.
 
@@ -99,7 +99,7 @@ Hopefully you will see rwsdk core beliefs in action:
 
   Interrupters run before your handler for the **matched** route; returning a Response halts the chain. Middleware runs before routing and is where you shape ctx for the request.
 
-  ## 4. Render through a custom Document (you own the HTML)
+### 4. Render through a custom Document (you own the HTML)
 
   Let's take a look at our Document file that renders your app HTML shell. We are going to change it so that it shows the right title and add a little navigation to make moving between pages easier. Later you can create your own navigation component.
   
@@ -124,7 +124,7 @@ Hopefully you will see rwsdk core beliefs in action:
 
   ```
 
-  ## 5. A tiny “Notes” page: RSC data + a form POST
+### 5. A tiny “Notes” page: RSC data + a form POST
 
   We’ll show a realistic, server-first flow: render notes and accept a form submission on the same route.
 
@@ -221,7 +221,7 @@ Hopefully you will see rwsdk core beliefs in action:
         if (text) NOTES.push({ id: Date.now(), text });
       };
     ```
-## 6. Add a tiny client island
+### 6. Add a tiny client island
 
   If you need interactivity, mark a component with "use client", import it, and drop it into your server JSX.
 
@@ -259,7 +259,7 @@ Hopefully you will see rwsdk core beliefs in action:
 
   Keep most UI as **server components**; hydrate only the islands that need it.
 
-  ## 7. Deploy when ready
+  ### 7. Deploy when ready
   If you followed the instructions you will be left with something that looks like this:
 
   ![tutorial result screenshot](./img01.png)
@@ -270,7 +270,7 @@ Hopefully you will see rwsdk core beliefs in action:
     pnpm run release
   ```
 
-  ## 8. Mental model (cheat-sheet)
+  ### 8. Mental model (cheat-sheet)
 
   - **One surface for pages & endpoints**: routes can return **JSX or Response** — mix as needed.
 	- **Forms prefer Server Actions**: ergonomic server mutations without wiring explicit POST branches.
@@ -278,9 +278,9 @@ Hopefully you will see rwsdk core beliefs in action:
 	- **Documents**: define your HTML wrapper per route group with render(Document, [...]).
 	- **Cloudflare-friendly**: deploys like a Worker; D1/DO integrate without ceremony.
 
-## Next Steps
+### Next Steps
 
-So now that you have the basics down you can try doing the following usng the [docs](https://docs.rwsdk.com/):
+So now that you have the basics down you can try doing the following usng the [docs](https://docs.rwsdk.com/) to guide you:
 
   - Replace the in-memory NOTES with D1 (bind DB in wrangler.jsonc, query in your server code).
 	- Add realtime with Durable Objects + WebSockets so new notes broadcast instantly.
