@@ -264,7 +264,7 @@ If you followed the instructions you will be left with something that looks like
 
 ![tutorial result screenshot](./img01.png)
 
-This will open up Cloudflare in your browser to log in and grant permissions. Go back to your terminal when that's done.
+Time to deploy. Run the command below. This will open up Cloudflare in your browser to log in and grant permissions. Go back to your terminal when that's done.
 
 ```
   pnpm run release
