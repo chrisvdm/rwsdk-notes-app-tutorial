@@ -10,7 +10,7 @@ import {
 
 import { sessions } from "@/session/store";
 import { requestInfo } from "rwsdk/worker";
-import { db } from "@/db";
+import { db } from "@/db/db";
 import { env } from "cloudflare:workers";
 
 function getWebAuthnConfig(request: Request) {

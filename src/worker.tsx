@@ -3,7 +3,7 @@ import { defineApp } from "rwsdk/worker";
 import { route, render } from "rwsdk/router";
 import { Document } from "@/app/Document";
 
-export { SessionDurableObject } from "@/session/durableObject"
+export { SessionDurableObject, AppDurableObject } from "@/db/durableObject"
 
 import { NotesPage } from "@/app/pages/NotesPage";
 
@@ -40,6 +40,6 @@ export default defineApp([
     // Protected route demonstrates Interrupter short-circuit
     // You can pass the context to your response
     route("/me", [requireAuth, ({ ctx }: { ctx: any }) => <p>Hello {ctx.user.username} user page</p>]),
-    route("/notes", () => <NotesPage />), 
+    route("/notes", ({ ctx }: { ctx: any }) => <NotesPage user={ctx.user} />), 
   ]),
 ]);

@@ -8,7 +8,7 @@ export const Document: React.FC<{ children: React.ReactNode }> = ({
       <title>@redwoodjs/starter-standard</title>
     </head>
     <body>
-      <header><a href="/">Home</a> · <a href="/ping">Ping</a> · <a href="/me">Me</a></header>
+      <header><a href="/">Home</a> · <a href="/ping">Ping</a> · <a href="/me">Me</a> · <a href="/notes">Notes</a></header>
       <div id="root">{children}</div>
       <script>import("/src/client.tsx")</script>
     </body>

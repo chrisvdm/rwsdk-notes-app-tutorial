@@ -1,5 +1,5 @@
 import { defineScript } from "rwsdk/worker";
-import { db, setupDb } from "@/db";
+import { db, setupDb } from "@/db/db";
 
 export default defineScript(async ({ env }) => {
   await setupDb(env);

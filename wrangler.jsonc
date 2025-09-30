@@ -17,6 +17,10 @@
       {
         "name": "SESSION_DURABLE_OBJECT",
         "class_name": "SessionDurableObject"
+      },
+      {
+        "name": "APP_DURABLE_OBJECT",
+        "class_name": "AppDurableObject"
       }
     ]
   },
@@ -29,6 +33,10 @@
       "new_sqlite_classes": [
         "SessionDurableObject"
       ]
+    },  
+    {
+      "tag": "v1",
+      "new_sqlite_classes": ["AppDurableObject"]
     }
   ],
   "d1_databases": [

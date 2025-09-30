@@ -1,6 +1,10 @@
 import { MAX_SESSION_DURATION } from "rwsdk/auth";
 import { DurableObject } from "cloudflare:workers";
 
+import { SqliteDurableObject } from "rwsdk/db";
+import { migrations } from "@/db/migrations";
+
+
 export interface Session {
   userId?: string | null;
   challenge?: string | null;
@@ -60,4 +64,8 @@ export class SessionDurableObject extends DurableObject {
     await this.ctx.storage.delete("session");
     this.session = undefined;
   }
+}
+
+export class AppDurableObject extends SqliteDurableObject {
+  migrations = migrations;
 }
