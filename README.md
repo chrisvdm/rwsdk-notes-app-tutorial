@@ -281,6 +281,8 @@ Time to deploy. Run the command below. This will open up Cloudflare in your brow
 - **Documents**: define your HTML wrapper per route group with render(Document, [...]).
 - **Cloudflare-friendly**: deploys like a Worker; D1/DO integrate without ceremony.
 
+---
+
 ### Next Steps
 
 So now that we have the basics down you can try doing the following by yourself. You can use the [docs](https://docs.rwsdk.com/) to guide you:
@@ -289,7 +291,7 @@ So now that we have the basics down you can try doing the following by yourself.
 - Add realtime with Durable Objects + WebSockets so new notes broadcast instantly.
 - Split your app into multiple render(Document, [...]) clusters if you want different shells per section.
 
-or you can move onto the next part of the tutorial... "Part 2 - Durable Objects"
+or you can move onto the next part of the tutorial... 
 
 ---
 
@@ -698,10 +700,12 @@ Sometimes it takes a few hours for the DO to work on Cloudflare. So we might get
 -	Context you own: ctx is shaped in middleware and readable in both routes and actions.
 -	Cloudflare-friendly: deploys like a Worker; D1 and Durable Objects integrate without ceremony.
 
-#### Next Steps
-Now that you’ve added persistence with Durable Objects, try experimenting further.
-You can use the docs to guide you:
-	1.	Add authentication using the Passkey Addon. 
-	2.	Add realtime updates with Durable Objects + WebSockets so new notes broadcast instantly.
+--- 
 
-⸻
+### Next Steps
+Now that you’ve added persistence with Durable Objects, try experimenting further.
+You can use the [docs](https://docs.rwsdk.com/) to guide you:
+- Add authentication using the Passkey Addon.
+- Add realtime updates with Durable Objects + WebSockets so new notes broadcast instantly.
+
+---
