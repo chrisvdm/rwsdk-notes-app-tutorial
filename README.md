@@ -2,27 +2,6 @@
 
 This is a multi-part tutorial. The aim is to get you familiar with all the best parts of the rwsdk so that you can create an amazing app that saves the world. As this is being written theres no telling what this tutorial app will look like at the end of its journey... so stick around and find out. 
 
----
-title: "rwsdk Tutorial – Part 1: Ping Notes"
-summary: "Build your first rwsdk app — a simple notes demo that introduces routing, middleware, context, and server actions."
-author: "Chris"
-version: "rwsdk 1.0.0-beta.9"
-last_tested: "2025-10-06"
-difficulty: "Beginner"
-time: "30 min"
-tags:
-  - cloudflare
-  - rwsdk
-  - react-server-components
-  - tutorial
-  - notes-app
-series: "Ping Notes"
-part: 1
-next: "./part2.md"
-repo: "https://github.com/yourname/ping-notes"
-image: "./img01.png"
----
-
 ## Part 1
 
 Let's start by building a quick notes app. Nothing fancy. This will give you the lay of the land when working with rwsdk.
@@ -312,22 +291,6 @@ So now that you have the basics down you can try doing the following by yourself
 
 or you can move onto the next part of the tutorial... "Part 2 - Durable Objects"
 
----
-title: "rwsdk Tutorial – Part 2: Durable Objects"
-summary: "Add Durable Objects to your rwsdk app for persistent storage and in-memory state."
-author: "Chris"
-version: "rwsdk 1.0.0-beta.9"
-last_tested: "2025-10-06"
-difficulty: "Intermediate"
-time: "45 min"
-tags:
-  - cloudflare
-  - durable-objects
-  - rwsdk
-  - tutorial
-repo: "https://github.com/yourname/ping-notes"
-image: "./img02.png"
----
 
 ## Part 2 - Durable Objects
 The first part of the tutorial dealt with the barebones basics of working with rwsdk: Route handling, React Server Components, Actions, Deploying to Cloudflare, Middleware and Context. This next part gets spicy: Cloudflare’s Durable Objects. Everyone knows Prisma, but let’s get basic with SQL. It’ll be fun.
