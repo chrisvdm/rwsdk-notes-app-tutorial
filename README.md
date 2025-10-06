@@ -1,6 +1,6 @@
 # rwsdk Tutorial - Ping Notes
 
-This is a multi-part tutorial. The aim is to get familiar with all the best parts of the rwsdk so that we can create an amazing app that saves the world. As this is being written theres no telling what this tutorial app will look like at the end of its journey... so stick around and find out. 
+This is a multi-part tutorial. The aim is to get familiar with the best parts of rwsdk so we can build something solid, fast. As this is being written theres no telling what this tutorial app will look like at the end of its journey... so stick around and find out. 
 
 ## Index
 
@@ -293,7 +293,7 @@ or you can move onto the next part of the tutorial...
 
 
 ## Part 2 - Durable Objects
-The first part of the tutorial dealt with the barebones basics of working with rwsdk: Route handling, React Server Components, Actions, Deploying to Cloudflare, Middleware and Context. This part gets spicy: with Cloudflare’s Durable Objects. Everyone knows Prisma, but let’s get basic with SQL. It’ll be fun.
+The first part of the tutorial dealt with the barebones basics of working with rwsdk: Route handling, React Server Components, Actions, Deploying to Cloudflare, Middleware and Context. This part gets spicy: Cloudflare Durable Objects. Everyone knows Prisma; here we’ll keep it basic with SQL. It’ll be fun.
 
 ### A quick lesson on Durable Objects
 
@@ -367,7 +367,7 @@ import { type migrations } from "@/db/migrations";
 
 export type AppDatabase = Database<typeof migrations>;
 export type User = AppDatabase["users"];
-export type Post = AppDatabase["notes"];
+export type Note = AppDatabase["notes"];
 
 export const db = createDb<AppDatabase>(
   env.APP_DURABLE_OBJECT as any,
@@ -466,7 +466,7 @@ Now update the NotesPage to use the action to populate the list of notes using t
 ```js
 // src/app/pages/NotesPage.tsx
 
-import { postNotes, allNotes } from "../notes/actions"; // import the allNotes action
+import { postNotes, allNotes } from "@/app/notes/actions"; // import the allNotes action
 
 // ...
 export async function NotesPage({user}: {user:any}) {
@@ -532,7 +532,7 @@ export const postNotes = async (FormData: FormData) => {
             title: String(form.get('title') || ""),
             content: String(form.get('content') || ""),
         };
-        console.log(note)
+
         await db.insertInto("notes").values(note).execute();
     }
 }
@@ -615,7 +615,7 @@ export { seedUsers, getAllUsers, hasUsers }
     if (!SEED_USERS) {
       const hasUsersResult = await hasUsers();
         if (!hasUsersResult) {
-        seedUsers();
+        await seedUsers();
       } 
       SEED_USERS = true
     }
@@ -697,5 +697,3 @@ Now that you’ve added persistence with Durable Objects, try experimenting furt
 You can use the [docs](https://docs.rwsdk.com/) to guide you:
 - Add authentication using the Passkey Addon.
 - Add realtime updates with Durable Objects + WebSockets so new notes broadcast instantly.
-
----
