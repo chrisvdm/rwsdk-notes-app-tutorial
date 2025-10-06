@@ -2,6 +2,14 @@
 
 This is a multi-part tutorial. The aim is to get familiar with all the best parts of the rwsdk so that we can create an amazing app that saves the world. As this is being written theres no telling what this tutorial app will look like at the end of its journey... so stick around and find out. 
 
+## Tutorial Index
+
+| Part | Title | Description |
+|------|--------|-------------|
+| [**Part 1 – Ping Notes**](./part1.md) | Build a simple notes app to learn rwsdk fundamentals — routing, middleware, context, and server actions. |  
+| [**Part 2 – Durable Objects**](./part2.md) | Add persistence with Cloudflare Durable Objects and Kysely, turning your notes into stored data. |
+
+
 ## Part 1
 
 Let's start by building a quick notes app. Nothing fancy. This will give us the lay of the land when working with rwsdk.
@@ -273,15 +281,6 @@ Time to deploy. Run the command below. This will open up Cloudflare in your brow
   pnpm run release
 ```
 
-### 8. Mental model (cheat-sheet)
-
-- **One surface for pages & endpoints**: routes can return **JSX or Response** — mix as needed.
-- **Forms prefer Server Actions**: ergonomic server mutations without wiring explicit POST branches.
-- **Context you own**: ctx shaped in middleware; read in routes and actions.
-- **Documents**: define your HTML wrapper per route group with render(Document, [...]).
-- **Cloudflare-friendly**: deploys like a Worker; D1/DO integrate without ceremony.
-
----
 
 ### Next Steps
 
@@ -293,7 +292,7 @@ So now that we have the basics down you can try doing the following by yourself.
 
 or you can move onto the next part of the tutorial... 
 
----
+
 
 ## Part 2 - Durable Objects
 The first part of the tutorial dealt with the barebones basics of working with rwsdk: Route handling, React Server Components, Actions, Deploying to Cloudflare, Middleware and Context. This part gets spicy: with Cloudflare’s Durable Objects. Everyone knows Prisma, but let’s get basic with SQL. It’ll be fun.
@@ -694,13 +693,6 @@ pnpm run release
 ```
 
 Sometimes it takes a few hours for the DO to work on Cloudflare. So we might get an error at first but after a while it should work just fine.
-
-### 12. Mental model (cheat-sheet)
--	Forms prefer Server Actions: ergonomic server mutations without wiring explicit POST branches.
--	Context you own: ctx is shaped in middleware and readable in both routes and actions.
--	Cloudflare-friendly: deploys like a Worker; D1 and Durable Objects integrate without ceremony.
-
---- 
 
 ### Next Steps
 Now that you’ve added persistence with Durable Objects, try experimenting further.
