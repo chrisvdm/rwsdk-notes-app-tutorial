@@ -18,7 +18,7 @@ export const postNotes = async (FormData: FormData) => {
     if (title && content) {
         const note = {
             id: crypto.randomUUID(),
-            userId: userId,
+            userId: String(userId),
             title: String(form.get('title') || ""),
             content: String(form.get('content') || ""),
         };

@@ -20,7 +20,7 @@
     "migrate:dev": "prisma generate && wrangler d1 migrations apply DB --local",
     "migrate:prd": "wrangler d1 migrations apply DB --remote",
     "migrate:new": "rw-scripts migrate-new",
-    "seed": "npm run worker:run ./src/scripts/seed.ts",
+    "seed": "rw-scripts worker-run ./src/scripts/seed.ts",
     "generate": "rw-scripts ensure-env && prisma generate && wrangler types",
     "check": "npm run generate && npm run types",
     "types": "tsc",
@@ -31,19 +31,23 @@
     "@prisma/client": "~6.8.2",
     "@simplewebauthn/browser": "^13.1.0",
     "@simplewebauthn/server": "^13.1.1",
-    "rwsdk": "0.3.12"
+    "react": "19.2.0-canary-86181134-20251001",
+    "react-dom": "19.2.0-canary-86181134-20251001",
+    "react-server-dom-webpack": "19.2.0-canary-86181134-20251001",
+    "rwsdk": "1.0.0-beta.9"
   },
   "devDependencies": {
-    "@cloudflare/vite-plugin": "1.7.4",
-    "@cloudflare/workers-types": "^4.20250407.0",
+    "@cloudflare/vite-plugin": "1.13.8",
+    "@cloudflare/workers-types": "^4.20251001.0",
     "@types/node": "^22.14.0",
     "@types/react": "^19.1.2",
     "@types/react-dom": "^19.1.2",
     "prisma": "~6.8.2",
+    "tsx": "^4.20.6",
     "typescript": "^5.8.3",
     "vibe-rules": "^0.2.31",
     "vite": "^6.2.6",
-    "wrangler": "~4.20.5"
+    "wrangler": "~4.40.3"
   },
   "pnpm": {
     "onlyBuiltDependencies": [

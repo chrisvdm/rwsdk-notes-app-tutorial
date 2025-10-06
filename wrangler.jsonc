@@ -2,7 +2,7 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "ping-notes",
   "main": "src/worker.tsx",
-  "compatibility_date": "2025-05-07",
+  "compatibility_date": "2025-08-21",
   "compatibility_flags": [
     "nodejs_compat"
   ],

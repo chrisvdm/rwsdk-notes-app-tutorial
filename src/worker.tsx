@@ -3,10 +3,13 @@ import { defineApp } from "rwsdk/worker";
 import { route, render } from "rwsdk/router";
 import { Document } from "@/app/Document";
 
+import { hasUsers, seedUsers } from "@/app/users/actions"
+
 export { SessionDurableObject, AppDurableObject } from "@/db/durableObject"
 
 import { NotesPage } from "@/app/pages/NotesPage";
 
+let SEED_USERS = false;
 
 // Example "session" middleware
 async function sessionMiddleware({ ctx }: { ctx: any }) {
@@ -33,6 +36,16 @@ export default defineApp([
     // Global middleware run first
   sessionMiddleware,
   getUserMiddleware,
+  async () => {
+    if (!SEED_USERS) {
+      const hasUsersResult = await hasUsers();
+        if (!hasUsersResult) {
+        seedUsers();
+      } 
+      SEED_USERS = true
+    }
+    return; // continue request
+  },
   render(Document, [
     route("/", () => <p>Home (public)</p>),
     route("/ping", () => <p>Pong (public)</p>),

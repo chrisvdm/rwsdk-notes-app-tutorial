@@ -2,6 +2,27 @@
 
 This is a multi-part tutorial. The aim is to get you familiar with all the best parts of the rwsdk so that you can create an amazing app that saves the world. As this is being written theres no telling what this tutorial app will look like at the end of its journey... so stick around and find out. 
 
+---
+title: "rwsdk Tutorial – Part 1: Ping Notes"
+summary: "Build your first rwsdk app — a simple notes demo that introduces routing, middleware, context, and server actions."
+author: "Chris"
+version: "rwsdk 1.0.0-beta.9"
+last_tested: "2025-10-06"
+difficulty: "Beginner"
+time: "30 min"
+tags:
+  - cloudflare
+  - rwsdk
+  - react-server-components
+  - tutorial
+  - notes-app
+series: "Ping Notes"
+part: 1
+next: "./part2.md"
+repo: "https://github.com/yourname/ping-notes"
+image: "./img01.png"
+---
+
 ## Part 1
 
 Let's start by building a quick notes app. Nothing fancy. This will give you the lay of the land when working with rwsdk.
@@ -291,8 +312,25 @@ So now that you have the basics down you can try doing the following by yourself
 
 or you can move onto the next part of the tutorial... "Part 2 - Durable Objects"
 
+---
+title: "rwsdk Tutorial – Part 2: Durable Objects"
+summary: "Add Durable Objects to your rwsdk app for persistent storage and in-memory state."
+author: "Chris"
+version: "rwsdk 1.0.0-beta.9"
+last_tested: "2025-10-06"
+difficulty: "Intermediate"
+time: "45 min"
+tags:
+  - cloudflare
+  - durable-objects
+  - rwsdk
+  - tutorial
+repo: "https://github.com/yourname/ping-notes"
+image: "./img02.png"
+---
+
 ## Part 2 - Durable Objects
-The first part of the tutorial dealt with the barebones basics of working with rwsdk: Route handling, React Server Components, Actions, Deploying to Cloudflare, Middleware and Context. This next part gets spicey with integrating Cloudflare’s Durable Objects. Everyone knows Prisma, but let’s get basic with SQL. It’ll be fun.
+The first part of the tutorial dealt with the barebones basics of working with rwsdk: Route handling, React Server Components, Actions, Deploying to Cloudflare, Middleware and Context. This next part gets spicy: Cloudflare’s Durable Objects. Everyone knows Prisma, but let’s get basic with SQL. It’ll be fun.
 
 ### A quick lesson on Durable Objects
 
@@ -369,7 +407,7 @@ export type User = AppDatabase["users"];
 export type Post = AppDatabase["notes"];
 
 export const db = createDb<AppDatabase>(
-  env.APP_DURABLE_OBJECT,
+  env.APP_DURABLE_OBJECT as any,
   "main-database" // unique key for this database instance
 );
 ```
@@ -514,20 +552,179 @@ import { requestInfo } from "rwsdk/worker";
 
 // ...
 
-export const postNotes = async (formData: {title: string, content: string}) => {
-    const {title, content } = formData
+export const postNotes = async (FormData: FormData) => {
+    const form = FormData
     const {ctx} : { ctx: any } = requestInfo
     const userId = ctx.user.id
 
-    const note = {
-        id: crypto.randomUUID(),
-        userId: userId,
-        title: title,
-        content: content,
-    };
-    await db.insertInto("notes").values(note).execute();
+    // Get form data and sanitise
+    const title = String(form.get("title") || "").trim();
+    const content = String(form.get("content") || "").trim();
+
+    // Validate
+    if (title && content) {
+        const note = {
+            id: crypto.randomUUID(),
+            userId: String(userId),
+            title: String(form.get('title') || ""),
+            content: String(form.get('content') || ""),
+        };
+        console.log(note)
+        await db.insertInto("notes").values(note).execute();
+    }
 }
 
 // ...
 
 ```
+
+ Oops!!! That's embarrassing!!!
+
+ ### Add a quick check in route handling
+ It seems we have no users in our `users` table. Lets add a check in the `defineApp` to check whether we have users and if not then to seed the users via actions.
+
+ #### Create user actions
+
+ Here 3 actions are created: `getAllUsers`, `seedUsers` and `hasUsers`
+
+ ```js
+ "use server";
+
+import { requestInfo } from "rwsdk/worker";
+import { db } from "@/db/db";
+
+
+const seedUsers = async () => {
+ // clean out the database
+  await db.deleteFrom("users").execute();
+
+  // set the initial sources
+  // create some users
+  await db
+    .insertInto("users")
+    .values([
+      { id: "u_123", username: "John", createdAt: new Date().toISOString() },
+      { id: "u_456", username: "Sue", createdAt: new Date().toISOString() },
+      { id: "u_789", username: "Thandi", createdAt: new Date().toISOString() },
+    ])
+    .execute();
+
+  console.log("🌱 Finished seeding");
+}
+
+const getAllUsers = () => {
+  return db
+    .selectFrom("users")
+    .select([
+      "users.id",
+      "users.username",
+      "users.createdAt"
+    ])
+    .execute(); // execute returns a promise no need for extra "awaits" or "asyncs"
+}
+
+const hasUsers = async () => {
+    const users = await getAllUsers
+    return users.length > 0
+}
+
+export { seedUsers, getAllUsers, hasUsers }
+ ```
+
+ #### Update worker to include user seeding
+ Now that we have our actions, they need to be imported and used.
+
+ ```js
+ // ... Other code
+ import { hasUsers, seedUsers } from "@/app/users/actions"
+
+// ...
+
+ let SEED_USERS = false; 
+
+//...
+
+ export default defineApp([
+    // Global middleware run first
+  sessionMiddleware,
+  getUserMiddleware,
+   async () => {
+    if (!SEED_USERS) {
+      const hasUsersResult = await hasUsers();
+        if (!hasUsersResult) {
+        seedUsers();
+      } 
+      SEED_USERS = true
+    }
+    return; // continue request
+  },
+  render(Document, [
+    route("/", () => <p>Home (public)</p>),
+    route("/ping", () => <p>Pong (public)</p>),
+
+    // Protected route demonstrates Interrupter short-circuit
+    // You can pass the context to your response
+    route("/me", [requireAuth, ({ ctx }: { ctx: any }) => <p>Hello {ctx.user.username} user page</p>]),
+    route("/notes", ({ ctx }: { ctx: any }) => <NotesPage user={ctx.user} />), 
+  ]),
+]);
+ ```
+<!-- 
+Uncomment once Justin fixes this script nonsense
+### 10. Create a seed script
+It seems we have no user in our `users` table. Let's create a seed script to add a few users.
+
+#### Write the script
+```js
+// src/scripts/seed.ts
+import { defineScript } from "rwsdk/worker";
+import { db } from "@/db/db";
+
+export default defineScript(async () => {
+  // clean out the database
+  await db.deleteFrom("users").execute();
+
+  // set the initial sources
+  // create some users
+  await db
+    .insertInto("users")
+    .values([
+      { id: "u_123", username: "John", createdAt: new Date().toISOString() },
+      { id: "u_456", username: "Arun", createdAt: new Date().toISOString() },
+      { id: "u_789", username: "Thandi", createdAt: new Date().toISOString() },
+    ])
+    .execute();
+
+  console.log("🌱 Finished seeding");
+});
+```
+
+#### Update `package.json` to run the script
+```json
+{
+  // package.json
+  "scripts": {
+    "seed": "rw-scripts worker-run ./src/scripts/seed.ts"
+    // ...
+  }
+}
+```
+
+#### Run it
+```
+npm run seed
+``` -->
+### Deploy
+All done! Now you can try it out you should have a form that when filled in saves the results to a Durable Object. 
+
+Tada!
+
+![tutorial part 2 result screenshot](./img02.png)
+
+Let's deploy so that we can try this all out on Cloudflare
+
+```
+pnpm run release
+```
+
+Sometimes it takes a few hours for the DO to work on Cloudflare but yeah it'll show up.
