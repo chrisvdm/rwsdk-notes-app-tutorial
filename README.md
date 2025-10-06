@@ -5,7 +5,7 @@ This is a multi-part tutorial. The aim is to get familiar with all the best part
 ## Index
 
 - [**Part 1 – Ping Notes**](./part1.md) Build a simple notes app to learn rwsdk fundamentals — routing, middleware, context, and server actions.
-- **Part 2 – Durable Objects**](./part2.md) Add persistence with Cloudflare Durable Objects and Kysely, turning your notes into stored data.
+- [**Part 2 – Durable Objects**](./part2.md) Add persistence with Cloudflare Durable Objects and Kysely, turning your notes into stored data.
 
 
 ## Part 1
