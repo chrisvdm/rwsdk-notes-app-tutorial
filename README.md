@@ -1,22 +1,22 @@
 # rwsdk Tutorial - Ping Notes
 
-This is a multi-part tutorial. The aim is to get you familiar with all the best parts of the rwsdk so that you can create an amazing app that saves the world. As this is being written theres no telling what this tutorial app will look like at the end of its journey... so stick around and find out. 
+This is a multi-part tutorial. The aim is to get familiar with all the best parts of the rwsdk so that we can create an amazing app that saves the world. As this is being written theres no telling what this tutorial app will look like at the end of its journey... so stick around and find out. 
 
 ## Part 1
 
-Let's start by building a quick notes app. Nothing fancy. This will give you the lay of the land when working with rwsdk.
+Let's start by building a quick notes app. Nothing fancy. This will give us the lay of the land when working with rwsdk.
 
-Hopefully you will see rwsdk core beliefs in action:
+Hopefully we will see rwsdk core beliefs in action:
 
 - **Server-first by default.** Routes can return a classic Response or JSX that renders on the server (RSC) and streams to the client—no special folders needed.  ￼
-- **Explicit routing in one place.** You define routes in src/worker.tsx with route(...)—no file-system magic. Patterns support static/param/wildcard.  ￼
-- **Middleware + Context you control.** Populate ctx up front (e.g., session, user, db), and every route/action sees it. You can also add Interrupters per-route (mini middleware chains) to short-circuit flow (e.g., auth).  ￼
-- **Custom HTML shell per route.** Use render(Document, [...routes]) to pick the HTML “document” per set of routes; you own <html>, scripts, hydration strategy.  ￼
+- **Explicit routing in one place.** We define routes in src/worker.tsx with route(...)—no file-system magic. Patterns support static/param/wildcard.  ￼
+- **Middleware + Context you control.** Populate ctx up front (e.g., session, user, db), and every route/action sees it. We can also add Interrupters per-route (mini middleware chains) to short-circuit flow (e.g., auth).  ￼
+- **Custom HTML shell per route.** Use render(Document, [...routes]) to pick the HTML “document” per set of routes; we own <html>, scripts, hydration strategy.  ￼
 - **Cloudflare-native.** Ships as a Vite plugin targeting Workers; deploy with one command; D1/R2/Queues/DOs are first-class.  ￼
 
 **Prerequisites**
 
-You will need a few things before we get started: 
+We will need a few things before we get started: 
 
 - [Node.js v22](https://nodejs.org/en/download/) or later
 - [Cloudflare](https://www.cloudflare.com/en-gb/plans/) account
@@ -29,7 +29,7 @@ You will need a few things before we get started:
   pnpm install
   pnpm dev
 ```
-Open http://localhost:5173 and you’ll see the starter. The entry is src/worker.tsx.
+Open http://localhost:5173 and we’ll see the starter. The entry is src/worker.tsx.
 
 ### 2. Your first two routes: Response vs JSX
 
@@ -100,11 +100,11 @@ Let’s pretend we have a session middleware that populates ctx.session, then hy
   ]);
 ```
 
-Interrupters run before your handler for the **matched** route; returning a Response halts the chain. Middleware runs before routing and is where you shape ctx for the request.
+Interrupters run before our handler for the **matched** route; returning a Response halts the chain. Middleware runs before routing and is where we shape ctx for the request.
 
 ### 4. Render through a custom Document (you own the HTML)
 
-Let's take a look at our Document file that renders your app HTML shell. We are going to change it so that it shows the right title and add a little navigation to make moving between pages easier. Later you can create your own navigation component.
+Let's take a look at our Document file that renders your app HTML shell. We are going to change it so that it shows the right title and add a little navigation to make moving between pages easier. Later we can create your own navigation component.
 
 ```js
 // src/app/Document.tsx
@@ -226,7 +226,7 @@ Wire the route to render JSX:
   ```
 ### 6. Add a tiny client island
 
-If you need interactivity, mark a component with "use client", import it, and drop it into your server JSX.
+If we need interactivity, we mark a component with "use client", import it, and drop it into our server JSX.
 
 Create a "client-side" component:
 ```ts
@@ -283,7 +283,7 @@ Time to deploy. Run the command below. This will open up Cloudflare in your brow
 
 ### Next Steps
 
-So now that you have the basics down you can try doing the following by yourself. You can use the [docs](https://docs.rwsdk.com/) to guide you:
+So now that we have the basics down you can try doing the following by yourself. You can use the [docs](https://docs.rwsdk.com/) to guide you:
 
 - Replace the in-memory NOTES with D1 (bind DB in wrangler.jsonc, query in your server code).
 - Add realtime with Durable Objects + WebSockets so new notes broadcast instantly.
@@ -293,28 +293,28 @@ or you can move onto the next part of the tutorial... "Part 2 - Durable Objects"
 
 
 ## Part 2 - Durable Objects
-The first part of the tutorial dealt with the barebones basics of working with rwsdk: Route handling, React Server Components, Actions, Deploying to Cloudflare, Middleware and Context. This next part gets spicy: Cloudflare’s Durable Objects. Everyone knows Prisma, but let’s get basic with SQL. It’ll be fun.
+The first part of the tutorial dealt with the barebones basics of working with rwsdk: Route handling, React Server Components, Actions, Deploying to Cloudflare, Middleware and Context. This part gets spicy: with Cloudflare’s Durable Objects. Everyone knows Prisma, but let’s get basic with SQL. It’ll be fun.
 
 ### A quick lesson on Durable Objects
 
 Normally, Cloudflare Workers don’t remember anything between requests — they run, return a response, and disappear. Durable Objects (DOs) are a way to give your Worker memory and identity.
 
-You can think of a Durable Object as:
+We can think of a Durable Object as:
 - A named instance of a class (e.g. "notes" or "chat-room-123").
-- It always runs on Cloudflare’s edge, and you always connect to the same instance when you ask for that name.
+- It always runs on Cloudflare’s edge, and we always connect to the same instance when we ask for that name.
 - Each instance has its own built-in storage that saves data across requests.
-- Requests to the same instance are handled one at a time, so you don’t need to worry about race conditions.
+- Requests to the same instance are handled one at a time, so we don’t need to worry about race conditions.
 - While it’s “awake,” it can also hold in-memory state (like a list of WebSocket connections).
 
 #### Why this is useful
 
-Durable Objects are like tiny servers you don’t have to manage. They’re perfect for:
+Durable Objects are like tiny servers we don’t have to manage. They’re perfect for:
 - Storing sessions or user data
 - Counters or rate limits
 - Chat rooms and presence lists
 - Acting as a buffer in front of a database
 
-In rwsdk, DOs fit naturally: your routes stay clean and server-first, while the DO looks after the state.
+In rwsdk, DOs fit naturally: our routes stay clean and server-first, while the DO looks after the state.
 
 ### Define your Migrations
 
@@ -357,7 +357,7 @@ export const migrations = {
 
 ### 2. Create your database instance
 
-Now that you have described what your database should look, it is time to create it.
+Now that we have described what our database should look like, it is time to create it.
 
 ```ts
 // src/db/db.ts
@@ -377,7 +377,7 @@ export const db = createDb<AppDatabase>(
 
 ### 3. Create Your Durable Object Class
 
-Add the following to your `durableObject` file:
+Add the following to our `durableObject` file:
 
 ```ts
 // src/db/durableObject.ts
@@ -479,12 +479,12 @@ export async function NotesPage({user}: {user:any}) {
 ```
 
 ### 8. Update the NotesPage form
-Let's update the `NotesPage` form. If we look at the `notes` table on `src/db/migrations.ts`, we can see that we need:
+Let's update the `NotesPage` form. When we look at the `notes` table on `src/db/migrations.ts`, we can see that we need:
 - userId
 - title
 - content
 
-The next step will show you how to populate `userId`. For now, let's add a `title` field and update the `text` input to a `content` textarea. 
+The next step will show us how to populate `userId`. For now, let's add a `title` field and update the `text` input to a `content` textarea. 
 
 ```tsx
 // src/app/pages/NotesPage.tsx
@@ -500,7 +500,7 @@ The next step will show you how to populate `userId`. For now, let's add a `titl
 //...
 ```
 
-Now your NotesPage should be free of all references to the `NOTES` store.
+Now our NotesPage should be free of all references to the `NOTES` store.
 
 ### 9. Update `postNotes` action
 
@@ -678,7 +678,7 @@ export default defineScript(async () => {
 npm run seed
 ``` -->
 ### Deploy
-All done! Now you can try it out you should have a form that when filled in saves the results to a Durable Object. 
+All done! Now when you can try it out you should have a form that when submitted saves the results to a Durable Object. The results should be listed underneath the form.
 
 Tada!
 
@@ -690,4 +690,4 @@ Let's deploy so that we can try this all out on Cloudflare
 pnpm run release
 ```
 
-Sometimes it takes a few hours for the DO to work on Cloudflare but yeah it'll show up.
+Sometimes it takes a few hours for the DO to work on Cloudflare. So we might get an error at first but after a while it should work just as it does locally.
