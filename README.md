@@ -317,7 +317,7 @@ Durable Objects are like tiny servers we don’t have to manage. They’re perfe
 
 In rwsdk, DOs fit naturally: our routes stay clean and server-first, while the DO looks after the state.
 
-### Define your Migrations
+### 1. Define your Migrations
 
 This describes the shape of the DO "database". We will be creating two tables. One for collecting users and another for saving notes.
 
