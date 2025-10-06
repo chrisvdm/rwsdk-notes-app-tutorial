@@ -263,5 +263,5 @@ So now that we have the basics down you can try doing the following by yourself.
 - Add realtime with Durable Objects + WebSockets so new notes broadcast instantly.
 - Split your app into multiple render(Document, [...]) clusters if you want different shells per section.
 
-or you can move onto the next part of the tutorial... 
+or you can move onto the next part of the tutorial... [**Part 2 – Durable Objects**](./PART2.md)
 
