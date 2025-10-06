@@ -291,6 +291,7 @@ So now that we have the basics down you can try doing the following by yourself.
 
 or you can move onto the next part of the tutorial... "Part 2 - Durable Objects"
 
+---
 
 ## Part 2 - Durable Objects
 The first part of the tutorial dealt with the barebones basics of working with rwsdk: Route handling, React Server Components, Actions, Deploying to Cloudflare, Middleware and Context. This part gets spicy: with Cloudflare’s Durable Objects. Everyone knows Prisma, but let’s get basic with SQL. It’ll be fun.
@@ -543,7 +544,7 @@ export const postNotes = async (FormData: FormData) => {
 
  Oops!!! That's embarrassing!!!
 
- ### Add a quick check in route handling
+ ### 10. Add a quick check in route handling
  It seems we have no users in our `users` table. Lets add a check in the `defineApp` to check whether we have users and if not then to seed the users via actions.
 
  #### Create user actions
@@ -677,7 +678,7 @@ export default defineScript(async () => {
 ```
 npm run seed
 ``` -->
-### Deploy
+### 11. Deploy
 All done! Now when you can try it out you should have a form that when submitted saves the results to a Durable Object. The results should be listed underneath the form.
 
 Tada!
@@ -690,4 +691,17 @@ Let's deploy so that we can try this all out on Cloudflare
 pnpm run release
 ```
 
-Sometimes it takes a few hours for the DO to work on Cloudflare. So we might get an error at first but after a while it should work just as it does locally.
+Sometimes it takes a few hours for the DO to work on Cloudflare. So we might get an error at first but after a while it should work just fine.
+
+### 12. Mental model (cheat-sheet)
+-	Forms prefer Server Actions: ergonomic server mutations without wiring explicit POST branches.
+-	Context you own: ctx is shaped in middleware and readable in both routes and actions.
+-	Cloudflare-friendly: deploys like a Worker; D1 and Durable Objects integrate without ceremony.
+
+#### Next Steps
+Now that you’ve added persistence with Durable Objects, try experimenting further.
+You can use the docs to guide you:
+	1.	Add authentication using the Passkey Addon. 
+	2.	Add realtime updates with Durable Objects + WebSockets so new notes broadcast instantly.
+
+⸻
